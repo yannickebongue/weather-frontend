@@ -9,6 +9,7 @@ export default function(axios, https) {
                 latitude: req.query.latitude,
                 longitude: req.query.longitude,
                 current: "temperature_2m",
+                timezone: "auto",
                 timeformat: "unixtime"
             },
             httpsAgent: new https.Agent({  
