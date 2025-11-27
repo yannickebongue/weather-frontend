@@ -17,17 +17,19 @@ export default function(axios, https) {
         };
         const response = await axios.get(`https://geocoding-api.open-meteo.com/v1/search`, config);
         const results = response.data.results || [];
-        res.status(200).json(results.map(element => ({
-            id: element.id,
-            name: element.name,
-            latitude: element.latitude,
-            longitude: element.longitude,
-            elevation: element.elevation,
-            timezone: element.timezone,
-            country_code: element.country_code,
-            country: element.country,
-            population: element.population
-        })));
+        res.status(200).json({
+            items: results.map(element => ({
+                id: element.id,
+                name: element.name,
+                latitude: element.latitude,
+                longitude: element.longitude,
+                elevation: element.elevation,
+                timezone: element.timezone,
+                country_code: element.country_code,
+                country: element.country,
+                population: element.population
+            }))
+        });
     }
 
     return operations;
