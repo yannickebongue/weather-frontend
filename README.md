@@ -4,7 +4,7 @@ This is a sample Weather Frontend API. This application use a subset of the [Ope
 
 ## Prerequisites
 
--  **Node.js >= 22.13.1** and **npm >= 11.1.0**
+- **Node.js >= 22.13.1** and **npm >= 11.1.0**
 
 ## Run locally
 

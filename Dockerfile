@@ -1,10 +1,9 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
+# ========================================
+# Optimized Multi-Stage Dockerfile
+# Node.js TypeScript Application
+# ========================================
 
 ARG NODE_VERSION=22.13.1
 
@@ -47,6 +46,20 @@ RUN --mount=type=cache,target=/root/.npm,sharing=locked \
     npm cache clean --force
 
 # Create necessary directories and set permissions
+RUN chown -R node:node /usr/src/app
+
+# ========================================
+# Build Stage
+# ========================================
+FROM build-deps AS build
+
+# Copy only necessary files for building (respects .dockerignore)
+COPY --chown=node:node . .
+
+# Build the application
+RUN npm run build
+
+# Set proper ownership
 RUN chown -R node:node /usr/src/app
 
 # ========================================
@@ -95,9 +108,10 @@ ENV NODE_ENV=production \
 
 # Copy production dependencies from deps stage
 COPY --from=deps --chown=node:node /usr/src/app/node_modules ./node_modules
-# COPY --from=deps --chown=node:node /usr/src/app/package*.json ./
-# Copy the rest of the source files into the image.
-COPY --chown=node:node . .
+COPY --from=deps --chown=node:node /usr/src/app/package*.json ./
+# Copy built application from build stage
+COPY --from=build --chown=nodejs:nodejs /usr/src/app/dist ./dist
+# COPY --from=build --chown=nodejs:nodejs /usr/src/app/openapi.yaml ./
 
 # Run the application as a non-root user.
 USER node
@@ -106,4 +120,4 @@ USER node
 EXPOSE 3000
 
 # Run the application.
-CMD [ "node", "index.js" ]
+CMD [ "node", "dist/index.js" ]
