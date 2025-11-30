@@ -4,7 +4,7 @@ This is a sample Weather Frontend API. This application use a subset of the [Ope
 
 ## Prerequisites
 
--  **Node.js >= 22.13.1** and **npm >= 11.1.0**
+- **Node.js >= 22.13.1** and **npm >= 11.1.0**
 
 ## Run locally
 
@@ -14,9 +14,10 @@ Execute the following command to install required dependencies:
 $ npm install
 ```
 
-Then run the following command to start the application on port `3000`:
+Then run the following commands to build and start the application on port `3000`:
 
 ```bash
+$ npm run build
 $ npm start
 ```
 
