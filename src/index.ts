@@ -1,5 +1,5 @@
 import cors from "cors";
-import express from "express";
+import express, { Request, Response } from "express";
 import { initialize } from "express-openapi";
 import * as OpenApiValidator from "express-openapi-validator";
 
@@ -36,10 +36,10 @@ await initialize({
   routesIndexFileRegExp: /(?:index)?\.[tj]s$/
 });
 
-app.use(((err, req, res) => {
+app.use((err: Error, req: Request, res: Response) => {
   console.error(err);
-  res.status((err?.status as number) ?? 500).json(err);
-}) as express.ErrorRequestHandler);
+  res.status(500).send(err);
+});
 
 app.listen(port, () => {
   console.log(`Server running on ${port.toString()}`);
