@@ -110,8 +110,8 @@ ENV NODE_ENV=production \
 COPY --from=deps --chown=node:node /app/node_modules ./node_modules
 COPY --from=deps --chown=node:node /app/package*.json ./
 # Copy built application from build stage
-COPY --from=build --chown=nodejs:nodejs /app/dist ./dist
-# COPY --from=build --chown=nodejs:nodejs /app/openapi.yaml ./
+COPY --from=build --chown=node:node /app/dist ./dist
+# COPY --from=build --chown=node:node /app/openapi.yaml ./
 
 # Run the application as a non-root user.
 USER node
